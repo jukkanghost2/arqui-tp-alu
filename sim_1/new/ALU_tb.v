@@ -23,26 +23,29 @@
 module alu_tb;
   parameter SIZEDATA = 8;
   parameter SIZEOP = 6;
+  parameter N_OPS = 8;
   
 	//INPUTS
-  reg signed [SIZEDATA - 1:0]   DATOA;
-  reg signed [SIZEDATA - 1:0]   DATOB;
-  reg        [SIZEOP - 1:0]     OPCODE;
+  reg signed    [SIZEDATA - 1:0]    DATOA;
+  reg signed    [SIZEDATA - 1:0]    DATOB;
+  reg           [SIZEOP - 1:0]      OPCODE;
   	//OUTPUTS
-  wire [SIZEDATA - 1:0] RESULT;
-  wire CARRY;
+  wire          [SIZEDATA - 1:0]    RESULT;
+  wire                              CARRY;
+  
+  reg [SIZEOP-1:0] OPS[0:N_OPS-1];
   
    // duration for each bit = 20 * timescale = 20 * 1 ns  = 20ns
-  localparam period = 20;
-  localparam [SIZEOP - 1:0] ADD = 6'b100000;
-  localparam [SIZEOP - 1:0] SUB = 6'b100010;
-  localparam [SIZEOP - 1:0] OR = 6'b100101;
-  localparam [SIZEOP - 1:0] XOR = 6'b100110;
-  localparam [SIZEOP - 1:0] AND = 6'b100100;
-  localparam [SIZEOP - 1:0] NOR = 6'b100111;
-  localparam [SIZEOP - 1:0] SRA = 6'b000011;
-  localparam [SIZEOP - 1:0] SRL = 6'b000010;
-  
+  localparam                        period = 20;
+  localparam    [SIZEOP - 1:0]      ADD = 6'b100000;
+  localparam    [SIZEOP - 1:0]      SUB = 6'b100010;
+  localparam    [SIZEOP - 1:0]      OR = 6'b100101;
+  localparam    [SIZEOP - 1:0]      XOR = 6'b100110;
+  localparam    [SIZEOP - 1:0]      AND = 6'b100100;
+  localparam    [SIZEOP - 1:0]      NOR = 6'b100111;
+  localparam    [SIZEOP - 1:0]      SRA = 6'b000011;
+  localparam    [SIZEOP - 1:0]      SRL = 6'b000010;
+
   ALU alu_test (
     .DATOA      (DATOA), 
     .DATOB      (DATOB), 
@@ -50,100 +53,33 @@ module alu_tb;
     .RESULT     (RESULT),
     .CARRY      (CARRY)
   );
-    
-  
+     
     initial // initial block executes only once
         begin          
-            //SUMA CON CARRY
-            assign DATOA = 200;
-            assign DATOB = 200;
-            assign OPCODE = ADD;
-            #period; // wait for period 
-          
-          $display("DATOA %d", DATOA);
-          $display("DATOB %d", DATOB);
-          $display("SUMA %d", RESULT);
-          $display("CARRY %b", CARRY);
-          
-            //SUMA SIN CARRY
-          assign DATOA = 4;
-            assign DATOB = 1;
-            assign OPCODE = ADD;
-            #period; // wait for period 
-          
-          $display("DATOA %d", DATOA);
-          $display("DATOB %d", DATOB);
-          $display("SUMA %d", RESULT);
-          $display("CARRY %b", CARRY);
-            
-          //RESTA
-            assign DATOA = 8;
-            assign DATOB = 2;
-            assign OPCODE = SUB;
-            #period; // wait for period 
-          
-          $display("DATOA %d", DATOA);
-          $display("DATOB %d", DATOB);
-          $display("RESTA %d", RESULT);
-          
-          //AND
-            assign DATOA = 7;
-            assign DATOB = 2;
-            assign OPCODE = AND;
-            #period; // wait for period 
-          
-          $display("DATOA %b", DATOA);
-          $display("DATOB %b", DATOB);
-          $display("AND %b", RESULT);
-          
-          //OR
-            assign DATOA = 8;
-            assign DATOB = 2;
-            assign OPCODE = OR;
-            #period; // wait for period 
-          
-          $display("DATOA %b", DATOA);
-          $display("DATOB %b", DATOB);
-          $display("OR %b", RESULT);
-          
-          //XOR
-            assign DATOA = 4;
-            assign DATOB = 4;
-            assign OPCODE = XOR;
-            #period; // wait for period 
-          
-          $display("DATOA %b", DATOA);
-          $display("DATOB %b", DATOB);
-          $display("XOR %b", RESULT);
-          
-          //NOR
-            assign DATOA = 8;
-            assign DATOB = 2;
-            assign OPCODE = NOR;
-            #period; // wait for period 
-          
-          $display("DATOA %b", DATOA);
-          $display("DATOB %b", DATOB);
-          $display("NOR %b", RESULT);
-          
-          //SRA
-            assign DATOA = 4;
-            assign DATOB = 2;
-            assign OPCODE = SRA;
-            #period; // wait for period 
-          
-          $display("DATOA %b", DATOA);
-          $display("DATOB %b", DATOB);
-          $display("SRA %b", RESULT);
-          
-          //SRL
-            assign DATOA = 8;
-            assign DATOB = 2;
-            assign OPCODE = SRL;
-            #period; // wait for period 
-          
-          $display("DATOA %b", DATOA);
-          $display("DATOB %b", DATOB);
-          $display("SRL %b", RESULT);
+            OPS[0] = ADD;
+            OPS[1] = SUB;
+            OPS[2] = OR;
+            OPS[3] = AND;
+            OPS[4] = NOR;
+            OPS[5] = XOR;
+            OPS[6] = SRL;
+            OPS[7] = SRA;
+        
+            for(integer i = 0; i < N_OPS-1; i = i+1)
+                begin
+                    //SUMA CON CARRY
+                    #1 DATOA <= $random;
+                    #1 DATOB <= $random;
+                    #1 OPCODE <= OPS[i];
+                    #1;
+                    $display("DATOA %d", DATOA);
+                    $display("DATOB %d", DATOB);
+                    $display("OPERACION %d", OPCODE);
+                    $display("RESULTADO %d", RESULT);
+                    $display("CARRY %b", CARRY);
+                
+                    #period;
+                end
+            $finish;
         end
 endmodule
