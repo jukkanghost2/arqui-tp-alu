@@ -33,8 +33,7 @@ module ALU_top
   input      [SIZEDATA - 1:0]   SWITCHES,
   input      [N_BUTTONS - 1:0]  BUTTONS,
   //OUTPUTS
-  output     [SIZEDATA - 1:0]   LEDS,
-  output                        C_LED
+  output     [SIZEDATA - 1:0]   LEDS
 );
 
   reg signed [SIZEDATA - 1:0]   DATOA;
