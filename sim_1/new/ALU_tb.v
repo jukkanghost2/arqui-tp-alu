@@ -31,7 +31,6 @@ module alu_tb;
   reg           [SIZEOP - 1:0]      OPCODE;
   	//OUTPUTS
   wire          [SIZEDATA - 1:0]    RESULT;
-  wire                              CARRY;
   
   reg [SIZEOP-1:0] OPS[0:N_OPS-1];
   
@@ -50,8 +49,7 @@ module alu_tb;
     .DATOA      (DATOA), 
     .DATOB      (DATOB), 
     .OPCODE     (OPCODE), 
-    .RESULT     (RESULT),
-    .CARRY      (CARRY)
+    .RESULT     (RESULT)
   );
      
     initial // initial block executes only once
@@ -68,15 +66,14 @@ module alu_tb;
             for(integer i = 0; i < N_OPS-1; i = i+1)
                 begin
                     //SUMA CON CARRY
-                    #1 DATOA <= $random;
-                    #1 DATOB <= $random;
-                    #1 OPCODE <= OPS[i];
+                    DATOA <= $random;
+                    DATOB <= $random;
+                    OPCODE <= OPS[i];
                     #1;
                     $display("DATOA %d", DATOA);
                     $display("DATOB %d", DATOB);
-                    $display("OPERACION %d", OPCODE);
+                    $display("OPERACION %b", OPCODE);
                     $display("RESULTADO %d", RESULT);
-                    $display("CARRY %b", CARRY);
                 
                     #period;
                 end
