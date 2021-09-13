@@ -42,20 +42,19 @@ module ALU_top
   reg        [SIZEOP - 1:0]     OPCODE;
     
   ALU
-  u_ALU(.DATOA          (DATOA),
-        .DATOB          (DATOB),
-        .OPCODE         (OPCODE),
-        .RESULT         (LEDS),
-        .CARRY          (C_LED)
+  Modu_ALU(.DATOA          (DATOA),
+           .DATOB          (DATOB),
+           .OPCODE         (OPCODE),
+           .RESULT         (LEDS)      
   );
   
   always @(posedge CLK)
     begin
         if(BUTTONS[0] == 1'b1)
             DATOA   <= SWITCHES;
-        else if(BUTTONS[1] == 1'b1)
+        if(BUTTONS[1] == 1'b1)
             DATOB   <= SWITCHES;
-        else if(BUTTONS[2] == 1'b1)
+        if(BUTTONS[2] == 1'b1)
             OPCODE  <= SWITCHES;           
     end
 endmodule
