@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 09.09.2021 09:13:40
+// Create Date: 09.09.2021 09:59:46
 // Design Name: 
-// Module Name: ALU_top
+// Module Name: TOP_tb
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,42 +20,83 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ALU_top
-#(
-    //PARAMETERS
-    parameter   SIZEDATA = 8,
-                SIZEOP = 6,
-                N_BUTTONS = 3
-)
-(
-  //INPUTS
-  input                         CLK,
-  input      [SIZEDATA - 1:0]   SWITCHES,
-  input      [N_BUTTONS - 1:0]  BUTTONS,
-  //OUTPUTS
-  output     [SIZEDATA - 1:0]   LEDS,
-  output                        C_LED
-);
+module TOP_tb;
+  parameter SIZEDATA = 8;
+  parameter SIZEOP = 6;
+  parameter N_BUTTONS = 3;
+  parameter N_OPS = 8;
 
-  reg signed [SIZEDATA - 1:0]   DATOA;
-  reg signed [SIZEDATA - 1:0]   DATOB;
-  reg        [SIZEOP - 1:0]     OPCODE;
-    
-  ALU
-  Modu_ALU(.DATOA          (DATOA),
-           .DATOB          (DATOB),
-           .OPCODE         (OPCODE),
-           .RESULT         (LEDS)      
+	//INPUTS
+  reg                       CLK;
+  reg   [SIZEDATA - 1:0]    SWITCHES;
+  reg   [N_BUTTONS - 1:0]   BUTTONS;
+  	//OUTPUTS
+  wire  [SIZEDATA - 1:0]    LEDS;
+  reg [SIZEOP-1:0] OPS[0:N_OPS-1];
+
+  
+   // duration for each bit = 20 * timescale = 20 * 1 ns  = 20ns
+  localparam                        period = 20;
+  localparam    [SIZEOP - 1:0]      ADD = 6'b100000;
+  localparam    [SIZEOP - 1:0]      SUB = 6'b100010;
+  localparam    [SIZEOP - 1:0]      OR = 6'b100101;
+  localparam    [SIZEOP - 1:0]      XOR = 6'b100110;
+  localparam    [SIZEOP - 1:0]      AND = 6'b100100;
+  localparam    [SIZEOP - 1:0]      NOR = 6'b100111;
+  localparam    [SIZEOP - 1:0]      SRA = 6'b000011;
+  localparam    [SIZEOP - 1:0]      SRL = 6'b000010;
+  
+  ALU_top alu_top_test (
+    .CLK        (CLK), 
+    .SWITCHES   (SWITCHES), 
+    .BUTTONS    (BUTTONS), 
+    .LEDS       (LEDS)
   );
   
-  always @(posedge CLK)
-    begin
-        if(BUTTONS[0] == 1'b1)
-            DATOA   <= SWITCHES;
-        if(BUTTONS[1] == 1'b1)
-            DATOB   <= SWITCHES;
-        if(BUTTONS[2] == 1'b1)
-            OPCODE  <= SWITCHES;           
+  
+  
+  initial
+    begin          
+            OPS[0] = ADD;
+            OPS[1] = SUB;
+            OPS[2] = OR;
+            OPS[3] = AND;
+            OPS[4] = NOR;
+            OPS[5] = XOR;
+            OPS[6] = SRL;
+            OPS[7] = SRA;
+            
+            CLK = 1'b0;
+            SWITCHES = 8'b0; 
+		    BUTTONS = 3'b0;
+		    #10;
+		     for(integer i = 0; i < N_OPS-1; i = i+1) 
+		     begin
+		    SWITCHES = $random; 
+		    BUTTONS = 3'b001; //DATOA
+		    		    #10;
+		    SWITCHES = $random; 
+		    BUTTONS = 3'b010; //DATOB
+		    		    #10;
+
+		    SWITCHES = OPS[i]; 
+		    BUTTONS = 3'b100; //OPCODE
+		    		    #10;
+		      end
+            $finish;
+        
+            
+       end
+    always @(BUTTONS)
+   begin
+                   $display("SWITCHES %d", SWITCHES);
+                   $display("BOTON %b", BUTTONS);
+                   $display("RESULT %d", LEDS);
     end
+    
+   
+                
+    always #5 CLK = ~CLK;
 endmodule
+
 
