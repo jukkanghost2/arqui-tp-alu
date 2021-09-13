@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 09.09.2021 09:59:46
+// Create Date: 09.09.2021 09:13:40
 // Design Name: 
-// Module Name: TOP_tb
+// Module Name: ALU_top
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,33 +20,42 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module TOP_tb;
-  parameter SIZEDATA = 8;
-  parameter N_BUTTONS = 3;
-  
-	//INPUTS
-  reg                       CLK;
-  reg   [SIZEDATA - 1:0]    SWITCHES;
-  reg   [N_BUTTONS - 1:0]   BUTTONS;
-  	//OUTPUTS
-  wire  [SIZEDATA - 1:0]    LEDS;
-  wire                      C_LED;
-  
-  ALU_top alu_top_test (
-    .CLK        (CLK), 
-    .SWITCHES   (SWITCHES), 
-    .BUTTONS    (BUTTONS), 
-    .LEDS       (LEDS),
-    .CLED       (CLED)
+module ALU_top
+#(
+    //PARAMETERS
+    parameter   SIZEDATA = 8,
+                SIZEOP = 6,
+                N_BUTTONS = 3
+)
+(
+  //INPUTS
+  input                         CLK,
+  input      [SIZEDATA - 1:0]   SWITCHES,
+  input      [N_BUTTONS - 1:0]  BUTTONS,
+  //OUTPUTS
+  output     [SIZEDATA - 1:0]   LEDS,
+  output                        C_LED
+);
+
+  reg signed [SIZEDATA - 1:0]   DATOA;
+  reg signed [SIZEDATA - 1:0]   DATOB;
+  reg        [SIZEOP - 1:0]     OPCODE;
+    
+  ALU
+  Modu_ALU(.DATOA          (DATOA),
+           .DATOB          (DATOB),
+           .OPCODE         (OPCODE),
+           .RESULT         (LEDS)      
   );
   
-  initial
+  always @(posedge CLK)
     begin
-        CLK = 1'b0;
-        SWITCHES = 8'b0000; 
-		BUTTONS = 8'b0000;
-		#10;
+        if(BUTTONS[0] == 1'b1)
+            DATOA   <= SWITCHES;
+        if(BUTTONS[1] == 1'b1)
+            DATOB   <= SWITCHES;
+        if(BUTTONS[2] == 1'b1)
+            OPCODE  <= SWITCHES;           
     end
-    
-    always #5 CLK = ~CLK;
 endmodule
+
