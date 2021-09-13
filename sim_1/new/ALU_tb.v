@@ -23,7 +23,6 @@
 module alu_tb;
   parameter SIZEDATA = 8;
   parameter SIZEOP = 6;
-  parameter N_OPS = 8;
   
 	//INPUTS
   reg signed    [SIZEDATA - 1:0]    DATOA;
@@ -32,8 +31,7 @@ module alu_tb;
   	//OUTPUTS
   wire          [SIZEDATA - 1:0]    RESULT;
   
-  reg [SIZEOP-1:0] OPS[0:N_OPS-1];
-  
+ 
    // duration for each bit = 20 * timescale = 20 * 1 ns  = 20ns
   localparam                        period = 20;
   localparam    [SIZEOP - 1:0]      ADD = 6'b100000;
@@ -54,29 +52,37 @@ module alu_tb;
      
     initial // initial block executes only once
         begin          
-            OPS[0] = ADD;
-            OPS[1] = SUB;
-            OPS[2] = OR;
-            OPS[3] = AND;
-            OPS[4] = NOR;
-            OPS[5] = XOR;
-            OPS[6] = SRL;
-            OPS[7] = SRA;
+        DATOA = 8'b0;
+        DATOB = 8'b0;
+        OPCODE = 6'b0;
+        #10
+     
+        DATOA = 7;
+        DATOB = 2;
+        OPCODE = ADD;
+        #5
+        if (RESULT == 9)
+        $display ("passed");
+        else 
+         begin
+        $display ("error");
+        $stop;
+        end
         
-            for(integer i = 0; i < N_OPS-1; i = i+1)
-                begin
-                    //SUMA CON CARRY
-                    DATOA <= $random;
-                    DATOB <= $random;
-                    OPCODE <= OPS[i];
-                    #1;
-                    $display("DATOA %d", DATOA);
-                    $display("DATOB %d", DATOB);
-                    $display("OPERACION %b", OPCODE);
-                    $display("RESULTADO %d", RESULT);
-                
-                    #period;
-                end
+        #10
+        
+        OPCODE = SUB;
+        #5
+        if (RESULT == 5)
+        $display ("passed");
+        else 
+         begin
+        $display ("error");
+        $stop;
+        end
+        
+       
+    
             $finish;
         end
 endmodule
