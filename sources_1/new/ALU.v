@@ -32,8 +32,7 @@ module ALU
   input      [SIZEDATA - 1:0]   DATOB,
   input      [SIZEOP - 1:0]     OPCODE,
   //OUTPUTS
-  output     [SIZEDATA - 1:0]   RESULT,
-  output                        CARRY
+  output     reg [SIZEDATA - 1:0]   RESULT
 );
   
   //OPERATIONS
@@ -46,23 +45,20 @@ module ALU
   localparam [SIZEOP - 1:0]     SRA = 6'b000011;
   localparam [SIZEOP - 1:0]     SRL = 6'b000010;
   
-  reg signed [SIZEDATA:0]       TEMP;
-  
-  assign RESULT = TEMP[SIZEDATA - 1:0];
-  assign CARRY = TEMP[SIZEDATA];
-  
+
   always@(*)
     begin
       case(OPCODE)
-        ADD: TEMP = DATOA + DATOB;
-        SUB: TEMP = DATOA - DATOB;
-        OR:  TEMP = DATOA | DATOB;
-        XOR: TEMP = DATOA ^ DATOB;
-        AND: TEMP = DATOA & DATOB;
-        NOR: TEMP = ~(DATOA | DATOB);
-        SRA: TEMP = DATOA >>> DATOB;
-        SRL: TEMP = DATOA >> DATOB;
-        default: TEMP = 0;
+        ADD: RESULT = DATOA + DATOB;
+        SUB: RESULT = DATOA - DATOB;
+        OR:  RESULT = DATOA | DATOB;
+        XOR: RESULT = DATOA ^ DATOB;
+        AND: RESULT = DATOA & DATOB;
+        NOR: RESULT = ~(DATOA | DATOB);
+        SRA: RESULT = DATOA >>> DATOB;
+        SRL: RESULT = DATOA >> DATOB;
+        default: RESULT = 0;
       endcase
     end
 endmodule
+
