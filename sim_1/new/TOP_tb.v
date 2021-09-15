@@ -35,8 +35,8 @@ module TOP_tb;
   reg [SIZEOP-1:0] OPS[0:N_OPS-1];
 
   
-   // duration for each bit = 20 * timescale = 20 * 1 ns  = 20ns
-  localparam                        period = 20;
+   // duration for each bit = 10 * timescale = 10 * 1 ns  = 10ns
+  localparam                        period = 10;
   localparam    [SIZEOP - 1:0]      ADD = 6'b100000;
   localparam    [SIZEOP - 1:0]      SUB = 6'b100010;
   localparam    [SIZEOP - 1:0]      OR = 6'b100101;
@@ -69,19 +69,19 @@ module TOP_tb;
             CLK = 1'b0;
             SWITCHES = 8'b0; 
 		    BUTTONS = 3'b0;
-		    #10;
+		    #period;
 		     for(integer i = 0; i < N_OPS-1; i = i+1) 
 		     begin
 		    SWITCHES = $random; 
 		    BUTTONS = 3'b001; //DATOA
-		    		    #10;
+		    		    #period;
 		    SWITCHES = $random; 
 		    BUTTONS = 3'b010; //DATOB
-		    		    #10;
+		    		    #period;
 
 		    SWITCHES = OPS[i]; 
 		    BUTTONS = 3'b100; //OPCODE
-		    		    #10;
+		    		    #period;
 		      end
             $finish;
         
@@ -96,7 +96,5 @@ module TOP_tb;
     
    
                 
-    always #5 CLK = ~CLK;
+    always #(period/2) CLK = ~CLK;
 endmodule
-
-
