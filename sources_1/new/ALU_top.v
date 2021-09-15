@@ -47,6 +47,7 @@ module ALU_top
            .RESULT         (LEDS)      
   );
   
+  
   always @(posedge CLK)
     begin
         if(BUTTONS[0] == 1'b1)
@@ -56,4 +57,5 @@ module ALU_top
         if(BUTTONS[2] == 1'b1)
             OPCODE  <= SWITCHES;           
     end
+    
 endmodule
