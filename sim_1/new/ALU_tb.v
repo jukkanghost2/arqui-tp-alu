@@ -65,7 +65,8 @@ module alu_tb;
         $display ("passed");
         else 
          begin
-        $display ("error");
+        $display ("error add");
+
         $stop;
         end
         
@@ -77,11 +78,86 @@ module alu_tb;
         $display ("passed");
         else 
          begin
-        $display ("error");
+        $display ("error sub");
         $stop;
         end
         
+        #10
+        
+        OPCODE = AND;
+        #5
+        if (RESULT == 2)
+        $display ("passed");
+        else 
+         begin
+        $display ("error and");
+        $stop;
+        end
+        
+        #10
+        OPCODE = OR;
+        #5
+        if (RESULT == 7)
+        $display ("passed");
+        else 
+         begin
+        $display ("error or");
+        $stop;
+        end
+        
+        #10
+        OPCODE = NOR;
+        #5
+        if (RESULT == 248)
+        $display ("passed");
+        else 
+         begin
+        $display ("error nor");
+        $stop;
+        end
+        
+        #10
+        OPCODE = XOR;
+        #5
+        if (RESULT == 5)
+        $display ("passed");
+        else 
+         begin
+        $display ("error xor");
+        $stop;
+        end
+        
+         #10
+          DATOA = -7;
        
+        OPCODE = SRL;
+        #5
+        if (RESULT == 8'b00111110)
+        $display ("passed");
+        else 
+         begin
+        $display ("error srl");
+        $stop;
+       
+        end
+        
+        #10
+        OPCODE = SRA;
+        #5
+        if (RESULT == 8'b11111110)
+        $display ("passed");
+        else 
+         begin
+        $display ("error sra"); 
+        $stop;
+        end
+        
+        #10
+        
+        
+        
+        
+
     
             $finish;
         end
