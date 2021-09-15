@@ -27,8 +27,8 @@ module ALU
 )
 (
   //INPUTS
-  input         [SIZEDATA - 1:0]   DATOA,
-  input         [SIZEDATA - 1:0]   DATOB,
+  input signed  [SIZEDATA - 1:0]   DATOA,
+  input signed  [SIZEDATA - 1:0]   DATOB,
   input         [SIZEOP - 1:0]     OPCODE,
   //OUTPUTS
   output reg    [SIZEDATA - 1:0]   RESULT
@@ -44,8 +44,6 @@ module ALU
   localparam [SIZEOP - 1:0]     SRA = 6'b000011;
   localparam [SIZEOP - 1:0]     SRL = 6'b000010;
   
-  reg signed [SIZEDATA - 1:0]   DATOSIGA;
-
   always@(*)
     begin
       case(OPCODE)
@@ -55,16 +53,8 @@ module ALU
         XOR: RESULT = DATOA ^ DATOB;
         AND: RESULT = DATOA & DATOB;
         NOR: RESULT = ~(DATOA | DATOB);
-        SRA: 
-            begin
-                DATOSIGA = DATOA;
-                RESULT = DATOSIGA >>> DATOB;
-            end
-        SRL:
-            begin
-                DATOSIGA = DATOA;
-                RESULT = DATOSIGA >> DATOB;
-            end
+        SRA: RESULT = DATOA >>> DATOB;
+        SRL: RESULT = DATOA >> DATOB;
         default: RESULT = 0;
       endcase
     end
