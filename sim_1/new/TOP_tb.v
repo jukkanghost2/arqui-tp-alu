@@ -32,7 +32,7 @@ module TOP_tb;
   reg   [N_BUTTONS - 1:0]   BUTTONS;
   	//OUTPUTS
   wire  [SIZEDATA - 1:0]    LEDS;
-  reg [SIZEOP-1:0] OPS[0:N_OPS-1];
+  reg   [SIZEOP-1:0]        OPS[0:N_OPS-1];
 
   
    // duration for each bit = 10 * timescale = 10 * 1 ns  = 10ns
@@ -53,10 +53,8 @@ module TOP_tb;
     .LEDS       (LEDS)
   );
   
-  
-  
-  initial
-    begin          
+    initial
+        begin          
             OPS[0] = ADD;
             OPS[1] = SUB;
             OPS[2] = OR;
@@ -70,31 +68,30 @@ module TOP_tb;
             SWITCHES = 8'b0; 
 		    BUTTONS = 3'b0;
 		    #period;
-		     for(integer i = 0; i < N_OPS-1; i = i+1) 
-		     begin
-		    SWITCHES = $random; 
-		    BUTTONS = 3'b001; //DATOA
-		    		    #period;
-		    SWITCHES = $random; 
-		    BUTTONS = 3'b010; //DATOB
-		    		    #period;
-
-		    SWITCHES = OPS[i]; 
-		    BUTTONS = 3'b100; //OPCODE
-		    		    #period;
-		      end
-            $finish;
-        
-            
-       end
-    always @(BUTTONS)
-   begin
-                   $display("SWITCHES %d", SWITCHES);
-                   $display("BOTON %b", BUTTONS);
-                   $display("RESULT %d", LEDS);
-    end
-    
-   
+		    for(integer i = 0; i < N_OPS-1; i = i+1) 
+		      begin
+                SWITCHES = $random; 
+                BUTTONS = 3'b001; //DATOA        
+                #period;
                 
+                SWITCHES = $random; 
+                BUTTONS = 3'b010; //DATOB               
+                #period;
+    
+                SWITCHES = OPS[i]; 
+                BUTTONS = 3'b100; //OPCODE                
+                #period;
+		      end
+		      
+            $finish;
+        end
+       
+    always @(BUTTONS)
+        begin
+            $display("SWITCHES %d", SWITCHES);
+            $display("BOTON %b", BUTTONS);
+            $display("RESULT %d", LEDS);
+        end
+
     always #(period/2) CLK = ~CLK;
 endmodule
