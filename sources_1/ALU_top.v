@@ -19,11 +19,10 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module ALU_top
 #(
-    //PARAMETERS
-    parameter   SIZEDATA = 8,
+  //PARAMETERS
+  parameter     SIZEDATA = 8,
                 SIZEOP = 6,
                 N_BUTTONS = 3
 )
@@ -47,15 +46,14 @@ module ALU_top
            .RESULT         (LEDS)      
   );
   
-  
   always @(posedge CLK)
     begin
-        if(BUTTONS[0] == 1'b1)
-            DATOA   <= SWITCHES;
-        if(BUTTONS[1] == 1'b1)
-            DATOB   <= SWITCHES;
-        if(BUTTONS[2] == 1'b1)
-            OPCODE  <= SWITCHES;           
+      if(BUTTONS[0] == 1'b1)
+        DATOA   <= SWITCHES;
+      if(BUTTONS[1] == 1'b1)
+        DATOB   <= SWITCHES;
+      if(BUTTONS[2] == 1'b1)
+        OPCODE  <= SWITCHES;           
     end
-    
+
 endmodule

@@ -21,8 +21,8 @@
 
 module ALU
 #(
-    //PARAMETERS
-    parameter   SIZEDATA = 8,
+  //PARAMETERS
+  parameter     SIZEDATA = 8,
                 SIZEOP = 6
 )
 (

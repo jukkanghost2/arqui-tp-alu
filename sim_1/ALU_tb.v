@@ -23,7 +23,7 @@ module alu_tb;
   parameter SIZEDATA = 8;
   parameter SIZEOP = 6;
   
-	//INPUTS
+    //INPUTS
   reg signed    [SIZEDATA - 1:0]    DATOA;
   reg signed    [SIZEDATA - 1:0]    DATOB;
   reg           [SIZEOP - 1:0]      OPCODE;
