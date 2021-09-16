@@ -1,5 +1,5 @@
 # TP1: ALU
-Primer TP de arquitectura de computadoras ALU
+Primer TP de arquitectura de computadoras: ALU
 
 ## Francisco Daniele y Julian Gonzalez
 
@@ -15,28 +15,33 @@ A continuación se muestran unas imágenes obtenidas de Vivado con sus correspon
 Acá podemos ver como sería el circuito lógico de la ALU, que luego se sintetizara cómo LUTs. Tenemos 2 registros de 8 bits (parametrizables) para los operandos y uno de 6 bits para seleccionar las operaciones. Tenemos las "compuertas" lógicas que representan cada operación y un MUX para sacar el resultado correspondiente en el registro de 8 bits de salida.
 
 ![ALU schematic](images/alu.PNG)
-
+---
 #### ALU "INTEGRADA"
 En esta imagen observamos como se conectaría la ALU con las entradas salidas del sistema:
--    8 switches que representan los bits de entrada de datos
--    3 botones que manejan que entrada de la ALU va a tomar los datos de los switches (uno de los operandos o el OpCode)
--    La entrada de clock
--    Los 8 leds de salida que reciben el resultado
-Se observa como entre medio de la ALU y las entradas hay 3 registros (operando 1, 2 y opcode) que se sincronizan con el clock y utilizan los botones como chip enable para sacar a su salida lo que corresponda en flanco de clock.
+-    8 switches que representan los bits de entrada de datos.
+-    3 botones que manejan que entrada de la ALU va a tomar los datos de los switches (uno de los operandos o el OpCode).
+-    La entrada de clock.
+-    Los 8 leds de salida que reciben el resultado.
+
+Se observa como entre medio de la ALU y las entradas hay 3 registros (DATO A, B y opcode) que se sincronizan con el clock y utilizan los botones como chip enable para sacar a su salida lo que corresponda en flanco de clock.
 
 ![TOP schematic](images/top.PNG)
-
+---
 #### SIMULACION
-
+Aquí podemos ver una corrida _RTL simulation_ del testbench _TOP-tb.v_ que genera una señal de clock y cada 10ns genera un dato random y lo coloca, mediante los botones, secuencialmente en DATOA, DATOB y OPCODE. En flanco ascendente de clock se ve reflejado el cambio en los leds (resultado) dependiendo del estado de las entradas. 
 
 ![simulation](images/simulation.PNG)
-
+---
 #### SINTESIS
-
+En la síntesis se ve como quedaría todo el sistema ya sintetizado. Utiliza:
+-    80 cells: IBUFs y OBUFs buffers para las entradas y salidas, FDREs registros de bit para la entradas de la ALU (DATOA, DATOB y OPCODE) y LUTs para el funcionamiento de la ALU.
+-    20 I/O ports: 8 entradas switches, 3 entradas botones, 1 entrada clock y 8 salidas leds.
+-    101 nets.
 
 ![synthesis schematic](images/synthesis.PNG)
-
+---
 #### IMPLEMENTACION
-
+Aquí vemos como quedaría implementado el circuito sintetizado en la FPGA (los bloques celestes). Se ven en la parte izquierda, en los I/O banks, ailsado el bloque del clock, y más abajo, todos seguidos los restantes 19 puertos utilizados.
+Los demás bloques celestes son las 80 celdas utilizadas.
 
 ![implementation](images/implementation.png)
