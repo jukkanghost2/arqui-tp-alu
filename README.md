@@ -42,8 +42,14 @@ En la síntesis se ve como quedaría todo el sistema ya sintetizado. Utiliza:
 ![synthesis schematic](images/synthesis.PNG)
 ---
 #### SIMULACION POST-SINTESIS
-Luego de la simulacion de timing post-sintesis, obtenemos la siguiente imagen, en el cual pudimos observar que el circuito combinacional de la ALU demora aproximadamente 10 ns en procesar un resultado (marcadores amarillos). Tambien, observamos que cuando testeamos, despues de le damos la señal de reset, y enseguida nos poniamos a pasar datos a la ALU medianto los switches, estos no eran captados correctamente. Por lo tanto, esperando un corto tiempo que suponemos que es de inicializacion del sistema, ya no se observa este problema. 
+Luego de la simulacion de timing post-sintesis, obtenemos la siguiente imagen, en el cual pudimos observar que el circuito combinacional de la ALU demora aproximadamente 10 ns en procesar un resultado (marcadores amarillos). Por esta razon, decidimos que el periodo de clock sera de 20 ns.
+Tambien, observamos que cuando testeamos, despues de le damos la señal de reset, y enseguida nos poniamos a pasar datos a la ALU medianto los switches, estos no eran captados correctamente. Por lo tanto, esperando un corto tiempo que suponemos que es de inicializacion del sistema, ya no se observa este problema. 
+
 ![simulation post-synthesis](images/simulation-post-synthesis.PNG)
+
+En esta simulacion tambien podemos ver el jitter del sistema, que es un ruido indeseado causado por una pequeña desviacion de la señal clock, el mas extenso siendo de aproximadamente 1 ns como se observa en la imagen.  
+
+![jitter](images/jitter.PNG)
 ---
 #### IMPLEMENTACION
 Aquí vemos como quedaría implementado el circuito sintetizado en la FPGA (los bloques celestes).
