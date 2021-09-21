@@ -34,14 +34,15 @@ Aquí podemos ver una corrida _RTL simulation_ del testbench _TOP-tb.v_ que gene
 ---
 #### SINTESIS
 En la síntesis se ve como quedaría todo el sistema ya sintetizado. Utiliza:
--    80 cells: IBUFs y OBUFs buffers para las entradas y salidas, FDREs registros de bit para la entradas de la ALU (DATOA, DATOB y OPCODE) y LUTs para el funcionamiento de la ALU.
--    20 I/O ports: 8 entradas switches, 3 entradas botones, 1 entrada clock y 8 salidas leds.
--    101 nets.
+-    82 cells: IBUFs y OBUFs buffers para las entradas y salidas, FDREs registros de bit para la entradas de la ALU (DATOA, DATOB y OPCODE) y LUTs para el funcionamiento de la ALU.
+-    21 I/O ports: 8 entradas switches, 3 entradas botones, 1 entrada clock, 1 entrada reset y 8 salidas leds.
+-    102 nets.
 
 ![synthesis schematic](images/synthesis.PNG)
 ---
 #### IMPLEMENTACION
-Aquí vemos como quedaría implementado el circuito sintetizado en la FPGA (los bloques celestes). Se ven en la parte izquierda, en los I/O banks, ailsado el bloque del clock, y más abajo, todos seguidos los restantes 19 puertos utilizados.
-Los demás bloques celestes son las 80 celdas utilizadas.
+Aquí vemos como quedaría implementado el circuito sintetizado en la FPGA (los bloques celestes).
+Se ve en la parte derecha aislado el clock, y a la izquierda, en los I/O banks los restantes 20 puertos utilizados.
+Los demás bloques celestes son las 82 celdas utilizadas.
 
 ![implementation](images/implementation.PNG)
