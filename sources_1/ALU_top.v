@@ -19,16 +19,18 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+
 module ALU_top
 #(
-  //PARAMETERS
-  parameter     SIZEDATA = 8,
+    //PARAMETERS
+    parameter   SIZEDATA = 8,
                 SIZEOP = 6,
                 N_BUTTONS = 3
 )
 (
   //INPUTS
   input                         CLK,
+  input                         RESET,
   input      [SIZEDATA - 1:0]   SWITCHES,
   input      [N_BUTTONS - 1:0]  BUTTONS,
   //OUTPUTS
@@ -48,12 +50,21 @@ module ALU_top
   
   always @(posedge CLK)
     begin
-      if(BUTTONS[0] == 1'b1)
-        DATOA   <= SWITCHES;
+    if (RESET)
+        begin
+            DATOA <= 8'b0;
+            DATOB <= 8'b0;
+            OPCODE <= 6'b0;
+        end
+    else
+        begin
+        if(BUTTONS[0] == 1'b1)
+                DATOA   <= SWITCHES;
       if(BUTTONS[1] == 1'b1)
-        DATOB   <= SWITCHES;
-      if(BUTTONS[2] == 1'b1)
-        OPCODE  <= SWITCHES;           
+              DATOB   <= SWITCHES;
+         if(BUTTONS[2] == 1'b1)
+               OPCODE  <= SWITCHES;
+         end                 
     end
-
+    
 endmodule
