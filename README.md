@@ -28,7 +28,7 @@ Se observa como entre medio de la ALU y las entradas hay 3 registros (DATO A, B 
 
 ![TOP schematic](images/top.PNG)
 ---
-#### SIMULACION
+#### SIMULACION RTL
 Aquí podemos ver una corrida _RTL simulation_ del testbench _TOP-tb.v_ que genera una señal de clock y cada 10ns genera un dato random y lo coloca, mediante los botones, secuencialmente en DATOA, DATOB y OPCODE. En flanco ascendente de clock se ve reflejado el cambio en los leds (resultado) dependiendo del estado de las entradas. 
 
 ![simulation](images/simulation.PNG)
@@ -40,6 +40,10 @@ En la síntesis se ve como quedaría todo el sistema ya sintetizado. Utiliza:
 -    102 nets.
 
 ![synthesis schematic](images/synthesis.PNG)
+---
+#### SIMULACION POST-SINTESIS
+Luego de la simulacion de timing post-sintesis, obtenemos la siguiente imagen, en el cual pudimos observar que el circuito combinacional de la ALU demora aproximadamente 10 ns en procesar un resultado (marcadores amarillos). Tambien, observamos que cuando testeamos, despues de le damos la señal de reset, y enseguida nos poniamos a pasar datos a la ALU medianto los switches, estos no eran captados correctamente. Por lo tanto, esperando un corto tiempo que suponemos que es de inicializacion del sistema, ya no se observa este problema. 
+![simulation post-synthesis](images/simulation-post-synthesis.PNG)
 ---
 #### IMPLEMENTACION
 Aquí vemos como quedaría implementado el circuito sintetizado en la FPGA (los bloques celestes).
