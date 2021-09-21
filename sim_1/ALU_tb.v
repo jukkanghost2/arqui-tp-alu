@@ -23,13 +23,16 @@
 module alu_tb;
   parameter SIZEDATA = 8;
   parameter SIZEOP = 6;
-  
+  parameter N_OPS = 8;
+
 	//INPUTS
   reg signed    [SIZEDATA - 1:0]    DATOA;
   reg signed    [SIZEDATA - 1:0]    DATOB;
   reg           [SIZEOP - 1:0]      OPCODE;
   	//OUTPUTS
-  wire          [SIZEDATA - 1:0]    RESULT;
+  wire  signed [SIZEDATA - 1:0]    RESULT;
+  reg [SIZEOP-1:0] OPS[0:N_OPS-1];
+
   
  
    // duration for each bit = 20 * timescale = 20 * 1 ns  = 20ns
@@ -51,114 +54,56 @@ module alu_tb;
   );
      
     initial // initial block executes only once
-        begin          
+        begin
+        OPS[0] = ADD;
+            OPS[1] = SUB;
+            OPS[2] = OR;
+            OPS[3] = AND;
+            OPS[4] = NOR;
+            OPS[5] = XOR;
+            OPS[6] = SRL;
+            OPS[7] = SRA;
+            
+                      
         DATOA = 8'b0;
         DATOB = 8'b0;
         OPCODE = 6'b0;
         #10
-     
-        DATOA = 7;
-        DATOB = 2;
-        OPCODE = ADD;
-        #period
-        if (RESULT == 9)
-        $display ("passed");
-        else 
-         begin
-        $display ("error add");
+        
+            
+        
+     for(integer i = 0; i < N_OPS; i = i+1) 
+		     begin
+		     #(period)
+		       DATOA =  $urandom; 
+		      
+		       #(period*2);
+		       
+		        DATOB = $urandom;
+		       if( i > 5) DATOB = 3; //PARA OPS SRA Y SRL
+		
+		       #(period*2);
+                
+                
+		      OPCODE = OPS[i]; 
+		       #(period*2);
+		       case(i)
+		          0: if((DATOA + DATOB) != RESULT) $display("%d %d %d %d error en suma", DATOA, DATOB, RESULT, DATOA + DATOB);
+		          1: if((DATOA - DATOB) != RESULT) $display("%d %d %d %d error en resta", DATOA, DATOB, RESULT, DATOA - DATOB);
+		          2: if((DATOA | DATOB) != RESULT) $display("%b %b %b %b error en or", DATOA, DATOB, RESULT, DATOA | DATOB);
+		          3: if((DATOA & DATOB) != RESULT) $display("%b %b %b %b error en and", DATOA, DATOB, RESULT, DATOA & DATOB);
+		          4: if(~(DATOA | DATOB) != RESULT) $display("%b %b %b %b error en nor", DATOA, DATOB, RESULT, ~(DATOA | DATOB));
+		          5: if((DATOA ^ DATOB) != RESULT) $display("%b %b %b %b error en xor", DATOA, DATOB, RESULT, DATOA ^ DATOB);
+		          6: if((DATOA >> DATOB) != RESULT) $display("%b %b %b %b error en srl", DATOA, DATOB, RESULT, DATOA >> DATOB);
+		          7: if((DATOA >>> DATOB) != RESULT) $display("%b %b %b %b error en sra", DATOA, DATOB, RESULT, DATOA >>> DATOB);
+		       endcase
+		       
+		      end
+		      #(period);
 
-        $stop;
-        end
-        
-        #10
-        
-        OPCODE = SUB;
-        #period
-        if (RESULT == 5)
-        $display ("passed");
-        else 
-         begin
-        $display ("error sub");
-        $stop;
-        end
-        
-        #10
-        
-        OPCODE = AND;
-        #period
-        if (RESULT == 2)
-        $display ("passed");
-        else 
-         begin
-        $display ("error and");
-        $stop;
-        end
-        
-        #10
-        OPCODE = OR;
-        #period
-        if (RESULT == 7)
-        $display ("passed");
-        else 
-         begin
-        $display ("error or");
-        $stop;
-        end
-        
-        #10
-        OPCODE = NOR;
-        #period
-        if (RESULT == 248)
-        $display ("passed");
-        else 
-         begin
-        $display ("error nor");
-        $stop;
-        end
-        
-        #10
-        OPCODE = XOR;
-        #period
-        if (RESULT == 5)
-        $display ("passed");
-        else 
-         begin
-        $display ("error xor");
-        $stop;
-        end
-        
-         #10
-          DATOA = -7;
-       
-        OPCODE = SRL;
-        #period
-        if (RESULT == 8'b00111110)
-        $display ("passed");
-        else 
-         begin
-        $display ("error srl");
-        $stop;
-       
-        end
-        
-        #10
-        OPCODE = SRA;
-        #period
-        if (RESULT == 8'b11111110)
-        $display ("passed");
-        else 
-         begin
-        $display ("error sra"); 
-        $stop;
-        end
-        
-        #10
-        
-        
-        
-        
-
-    
             $finish;
-        end
+        
+            
+     end
+       
 endmodule
