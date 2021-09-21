@@ -7,7 +7,7 @@ Primer TP de arquitectura de computadoras: ALU
 El trabajo consiste en desarrollar una ALU para FPGA mediante Verilog y validarla mediante testbench. Para poder diseñar y simular utilizamos Vivado más los conocimientos adquiridos en clases y en la web.
 Decidimos seleccionar como placa objetivo la _Basys 3_ de _Digilent_ y creamos dos sources de diseños, uno para la ALU propiamente dicha (_ALU.v_) y otro para la ALU integrada con switches y botones para ingresar datos y leds para ver resultados (_ALU-TOP.v_).
 Para las validaciones creamos dos testbenchs diferentes: _ALU-tb.v_ y _TOP-tb.v_.
--    El primero se encarga de validar el funcionamiento de la ALU con assertions "caseros", mediante entradas conocidas y comprobando que el resultado sea el esperado.
+-    El primero se encarga de validar el funcionamiento de la ALU con assertions "caseros", mediante entradas aleatorias y chequeo automatico de resultados.
 -    El segundo es para comprobar que la unidad completa funcione bien, los datos desde los switches a la ALU se pasen bien, y se observen los resultados correctos en los leds. Para esto se incorpora además otro input, CLK, para sincronizar la entrada de datos mediante los switches y botones, y para ver reflejado el resultado de las operaciones.
 A continuación se muestran unas imágenes obtenidas de Vivado con sus correspondientes explicaciones.
 
