@@ -21,6 +21,7 @@ En esta imagen observamos como se conectaría la ALU con las entradas salidas de
 -    8 switches que representan los bits de entrada de datos.
 -    3 botones que manejan que entrada de la ALU va a tomar los datos de los switches (uno de los operandos o el OpCode).
 -    La entrada de clock.
+-    La entrada de reset.
 -    Los 8 leds de salida que reciben el resultado.
 
 Se observa como entre medio de la ALU y las entradas hay 3 registros (DATO A, B y opcode) que se sincronizan con el clock y utilizan los botones como chip enable para sacar a su salida lo que corresponda en flanco de clock.
