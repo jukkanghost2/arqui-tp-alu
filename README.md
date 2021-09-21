@@ -38,6 +38,7 @@ En la síntesis se ve como quedaría todo el sistema ya sintetizado. Utiliza:
 -    20 I/O ports: 8 entradas switches, 3 entradas botones, 1 entrada clock y 8 salidas leds.
 -    101 nets.
 
+![synthesis schematic](images/synthesis.PNG)
 ---
 #### IMPLEMENTACION
 Aquí vemos como quedaría implementado el circuito sintetizado en la FPGA (los bloques celestes). Se ven en la parte izquierda, en los I/O banks, ailsado el bloque del clock, y más abajo, todos seguidos los restantes 19 puertos utilizados.
