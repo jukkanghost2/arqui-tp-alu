@@ -44,4 +44,4 @@ En la síntesis se ve como quedaría todo el sistema ya sintetizado. Utiliza:
 Aquí vemos como quedaría implementado el circuito sintetizado en la FPGA (los bloques celestes). Se ven en la parte izquierda, en los I/O banks, ailsado el bloque del clock, y más abajo, todos seguidos los restantes 19 puertos utilizados.
 Los demás bloques celestes son las 80 celdas utilizadas.
 
-![implementation](images/implementation.png)
+![implementation](images/implementation.PNG)
