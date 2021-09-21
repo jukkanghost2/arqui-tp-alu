@@ -25,7 +25,7 @@ En esta imagen observamos como se conectaría la ALU con las entradas salidas de
 
 Se observa como entre medio de la ALU y las entradas hay 3 registros (DATO A, B y opcode) que se sincronizan con el clock y utilizan los botones como chip enable para sacar a su salida lo que corresponda en flanco de clock.
 
-![TOP schematic](images/top.PNG)
+
 ---
 #### SIMULACION
 Aquí podemos ver una corrida _RTL simulation_ del testbench _TOP-tb.v_ que genera una señal de clock y cada 10ns genera un dato random y lo coloca, mediante los botones, secuencialmente en DATOA, DATOB y OPCODE. En flanco ascendente de clock se ve reflejado el cambio en los leds (resultado) dependiendo del estado de las entradas. 
